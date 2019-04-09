@@ -21,6 +21,10 @@ const corsOptions = {
 	}
 };
 
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount),
+});
+
 @ServerSettings({
 	rootDir,
 	acceptMimes: ["application/json"],
@@ -28,11 +32,7 @@ const corsOptions = {
 	httpsPort: server_port,
 	mount: {
 		"/user": UserCtrl
-	},
-	statics: {
-		"/": `https://mentor-andersen.firebaseapp.com/`
 	}
-	
 })
 export class Server extends ServerLoader {
 
@@ -53,12 +53,6 @@ export class Server extends ServerLoader {
 			}));
 		
 		return null;
-	}
-	
-	public $onReady(){
-		admin.initializeApp({
-			credential: admin.credential.cert(serviceAccount),
-		});
 	}
 	
 	public $onServerInitError(err){
