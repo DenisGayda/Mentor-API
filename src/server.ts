@@ -31,6 +31,7 @@ admin.initializeApp({
 	rootDir,
 	acceptMimes: ["application/json"],
 	httpPort: server_port,
+	httpsPort: server_port,
 	mount: {
 		"/user": UserCtrl
 	}
