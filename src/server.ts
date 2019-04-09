@@ -7,6 +7,8 @@ const methodOverride = require('method-override');
 const cors = require('cors');
 const rootDir = __dirname;
 const serviceAccount = require("../serviceAccountKey.json");
+const ip = process.env.IP || '0.0.0.0';
+const port = process.env.PORT || 8080;
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
@@ -26,8 +28,6 @@ const corsOptions = {
 @ServerSettings({
 	rootDir,
 	acceptMimes: ["application/json"],
-	httpPort: "127.0.0.1:8081",
-	httpsPort: "127.0.0.2:8082",
 })
 export class Server extends ServerLoader {
 
@@ -51,6 +51,7 @@ export class Server extends ServerLoader {
 	}
 	
 	public $onReady(){
+		console.log('running at ' + ip + ':' + port);
 	}
 	
 	public $onServerInitError(err){
