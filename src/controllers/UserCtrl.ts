@@ -6,11 +6,6 @@ import { PasswordInterface } from '../config/password.interface';
 import { Auth } from '../models/Auth';
 import { RoleInterface } from '../config/role.interface';
 
-export interface Calendar{
-	id: string;
-	name: string;
-}
-
 @Controller("/user")
 export class UserCtrl {
 	constructor(private firebaseService: FirebaseService) {}
@@ -44,9 +39,9 @@ export class UserCtrl {
 	}
 	
 	@Delete("/")
-	async deleteItem(
-		@BodyParams("calendar.id") @Required() id: string
-	): Promise<Calendar> {
-		return {id, name: "calendar"};
+	async deleteItem(@BodyParams("user.id") @Required() id: string
+	): Promise<{id: string}> {
+		return this.firebaseService.deleteItem(Collections.USERS, id)
+			.then(() => Promise.resolve({id}))
 	}
 }
