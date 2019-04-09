@@ -30,8 +30,7 @@ admin.initializeApp({
 @ServerSettings({
 	rootDir,
 	acceptMimes: ["application/json"],
-	httpPort: port,
-	httpsPort: port,
+	httpPort: server_port,
 	mount: {
 		"/user": UserCtrl
 	}
