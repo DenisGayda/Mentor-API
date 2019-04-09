@@ -1,14 +1,21 @@
 import { ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware } from '@tsed/common';
 import * as admin from 'firebase-admin';
+import { UserCtrl } from './controllers/UserCtrl';
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compress = require('compression');
 const methodOverride = require('method-override');
 const cors = require('cors');
 const rootDir = __dirname;
+const serviceAccount = require("../serviceAccountKey.json");
 const server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 const server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 const httpPort = `${server_ip_address}:${server_port}`;
+
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount),
+});
+
 const whitelist = ['http://localhost:4200', 'http://127.0.0.1:8081', 'https://mentor-andersen.firebaseapp.com'];
 const corsOptions = {
 	origin: function (origin, callback) {
@@ -25,6 +32,9 @@ const corsOptions = {
 	acceptMimes: ["application/json"],
 	httpPort: server_port,
 	httpsPort: server_port,
+	mount: {
+		"/": UserCtrl
+	},
 	statics: {
 		"/": `https://mentor-andersen.firebaseapp.com/`
 	}

@@ -2,9 +2,16 @@
   "name": "test-ts-express-decorator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.ts",
   "scripts": {
-    "start": "node index.js ts-node src/server.ts"
+    "build": "npm run tsc",
+    "coverage": "npm run test-cov && npm run test-remap",
+    "postinstall": "npm run build",
+    "tslint": "tslint ./*.ts ./lib/*.ts",
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "tsc": "tsc --project tsconfig.json",
+    "tsc:w": "tsc -w",
+    "start": "node_modules/**/*' --exec ts-node src/server.ts"
   },
   "author": "",
   "license": "ISC",
