@@ -7,6 +7,9 @@ const methodOverride = require('method-override');
 const cors = require('cors');
 const rootDir = __dirname;
 const serviceAccount = require("../serviceAccountKey.json");
+const server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+const server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+const httpPort = `${server_ip_address}:${server_port}`;
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
@@ -26,8 +29,8 @@ const corsOptions = {
 @ServerSettings({
 	rootDir,
 	acceptMimes: ["application/json"],
-	httpPort: "127.0.0.1:8081",
-	httpsPort: "127.0.0.2:8082",
+	httpPort: httpPort,
+	httpsPort: httpPort,
 	statics: {
 		"/": `https://mentor-andersen.firebaseapp.com/`
 	}
@@ -55,7 +58,7 @@ export class Server extends ServerLoader {
 	}
 	
 	public $onReady(){
-		console.error('Hello world');
+		console.error('httpPort', httpPort);
 	}
 	
 	public $onServerInitError(err){
