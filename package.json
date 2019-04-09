@@ -12,6 +12,7 @@
     "tsc": "tsc --project tsconfig.json",
     "tsc:w": "tsc -w",
     "start": "ts-node src/server.ts"
+    "start:dev": "nodemon --watch '**/*.ts' --ignore 'node_modules/**/*' --exec ts-node src/server.ts"
   },
   "author": "",
   "license": "ISC",

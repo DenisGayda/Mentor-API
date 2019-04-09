@@ -9,14 +9,8 @@ const cors = require('cors');
 const rootDir = __dirname;
 const serviceAccount = require("../serviceAccountKey.json");
 const server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-const server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-const httpPort = `${server_ip_address}:${server_port}`;
-
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-});
-
 const whitelist = ['http://localhost:4200', 'http://127.0.0.1:8081', 'https://mentor-andersen.firebaseapp.com'];
+
 const corsOptions = {
 	origin: function (origin, callback) {
 		if (whitelist.indexOf(origin) !== -1) {
@@ -33,7 +27,7 @@ const corsOptions = {
 	httpPort: server_port,
 	httpsPort: server_port,
 	mount: {
-		"/": UserCtrl
+		"/user": UserCtrl
 	},
 	statics: {
 		"/": `https://mentor-andersen.firebaseapp.com/`
@@ -62,7 +56,9 @@ export class Server extends ServerLoader {
 	}
 	
 	public $onReady(){
-		console.error('httpPort', httpPort);
+		admin.initializeApp({
+			credential: admin.credential.cert(serviceAccount),
+		});
 	}
 	
 	public $onServerInitError(err){
@@ -70,4 +66,6 @@ export class Server extends ServerLoader {
 	}
 }
 
-new Server().start();
+new Server().start()
+	.then(() => console.log(`server is listening on ${server_port}`))
+	.catch((err) => console.log('something bad happened', err));
