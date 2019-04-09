@@ -8,7 +8,6 @@ const methodOverride = require('method-override');
 const cors = require('cors');
 const rootDir = __dirname;
 const serviceAccount = require("../serviceAccountKey.json");
-const server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 const whitelist = ['http://localhost:4200', 'http://127.0.0.1:8081', 'https://mentor-andersen.firebaseapp.com'];
 
 const corsOptions = {
@@ -28,8 +27,8 @@ admin.initializeApp({
 @ServerSettings({
 	rootDir,
 	acceptMimes: ["application/json"],
-	httpPort: server_port,
-	httpsPort: server_port,
+	httpPort: "127.0.0.1:8081",
+	httpsPort: "127.0.0.2:8082",
 	mount: {
 		"/user": UserCtrl
 	}
@@ -61,5 +60,5 @@ export class Server extends ServerLoader {
 }
 
 new Server().start()
-	.then(() => console.log(`server is listening on ${server_port}`))
+	.then(() => console.log(`server is listening`))
 	.catch((err) => console.log('something bad happened', err));
