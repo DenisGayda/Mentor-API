@@ -21,13 +21,17 @@ const corsOptions = {
 			callback(new Error('Not allowed by CORS'))
 		}
 	}
-}
+};
 
 @ServerSettings({
 	rootDir,
 	acceptMimes: ["application/json"],
 	httpPort: "127.0.0.1:8081",
 	httpsPort: "127.0.0.2:8082",
+	statics: {
+		"/": `https://mentor-andersen.firebaseapp.com/`
+	}
+	
 })
 export class Server extends ServerLoader {
 
@@ -51,6 +55,7 @@ export class Server extends ServerLoader {
 	}
 	
 	public $onReady(){
+		console.error('Hello world');
 	}
 	
 	public $onServerInitError(err){
