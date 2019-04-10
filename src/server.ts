@@ -8,10 +8,8 @@ const methodOverride = require('method-override');
 const cors = require('cors');
 const rootDir = __dirname;
 const serviceAccount = require("../serviceAccountKey.json");
-const server_ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 const server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 const whitelist = ['http://localhost:4200', 'http://127.0.0.1:8081', 'https://mentor-andersen.firebaseapp.com'];
-const port = `${server_ip}:${server_port}`;
 
 const corsOptions = {
 	origin: function (origin, callback) {
@@ -62,5 +60,5 @@ export class Server extends ServerLoader {
 }
 
 new Server().start()
-	.then(() => console.log(`server is listening on ${port}`))
+	.then(() => console.log(`server is listening on ${server_port}`))
 	.catch((err) => console.log('something bad happened', err));
