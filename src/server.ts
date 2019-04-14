@@ -29,7 +29,7 @@ admin.initializeApp({
 @ServerSettings({
 	rootDir,
 	acceptMimes: ["application/json"],
-	httpPort: '127.0.0.1:8080',
+	httpPort: server_port,
 	mount: {
 		"/user": UserCtrl,
 		'/test': TestCtrl,
